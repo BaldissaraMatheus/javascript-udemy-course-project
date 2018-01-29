@@ -295,7 +295,6 @@ var mainCtrl = (function generalController(budgetCtrl, UICtrl) {
 
     document.querySelector(DOMobj.container).addEventListener('click', ctrlDelItem);
     document.querySelector(DOMobj.inputType).addEventListener('change', UICtrl.changeType);
-
   };
   
   var ctrlAddItem = function addItemToDataAndUI() {
@@ -363,7 +362,6 @@ var mainCtrl = (function generalController(budgetCtrl, UICtrl) {
       UICtrl.displayMonth();
     }    
   };  
-
 }(budgetCtrl, UICtrl));
 
 mainCtrl.init();
