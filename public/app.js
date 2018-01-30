@@ -1,26 +1,30 @@
 const budgetCtrl = (function budgetController() {
 
-  const Expense = function(id, description, value) {
-    this.id = id;
-    this.description = description;
-    this.value = value;
-    this.percentage = -1;
-  };
+  class Expense {
+    constructor(id, description, value) {
+      this.id = id;
+      this.description = description;
+      this.value = value;
+      this.percentage = -1;
+    }
 
-  Expense.prototype.getPercent = function getExpensePercentage() {
-    return this.percentage;
-  };
+    getPercent() {
+      return this.percentage;
+    }
 
-  Expense.prototype.calcPercent = function calculateIndividualExpensePercantage(totalInc) {
-    if (totalInc > 0) {
-      this.percentage = Math.round((this.value / totalInc) * 100);
+    calcPercent(totalInc) {
+      if (totalInc > 0) {
+        this.percentage = Math.round((this.value / totalInc) * 100);
+      }
     }
   };
 
-  const Income = function(id, description, value) {
-    this.id = id;
-    this.description = description;
-    this.value = value;
+  class Income {
+    constructor(id, description, value) {
+      this.id = id;
+      this.description = description;
+      this.value = value;
+    }
   };
 
   const calcTotal = function calculateTotalIncomesOrExpenses(type) {
@@ -317,7 +321,7 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
     budgetCtrl.delItem(type, id);
     UICtrl.delListItem(selectorId);
     updateBudget();
-    updatePercentages();
+    updatePercentages();   
   };
 
   const updateBudget = function updateTheGlobalBudgetValue() {
