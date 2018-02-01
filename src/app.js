@@ -150,7 +150,7 @@ const UICtrl = (function UIController() {
     dateLabel: '.js-month'
   };
 
-  formatNum =  function formatNumber(numIn, type){
+  const formatNum = function formatNumber(numIn, type){
     let num;
     let numSplit;
     let int;
@@ -205,7 +205,7 @@ const UICtrl = (function UIController() {
     addListItem: function(item, type) {
       let html;
       let newHtml;
-      let element;
+      let DOMelement;
 
       if (type === 'inc') {       
         DOMelement = DOMstrings.incomesContainer;
@@ -315,6 +315,7 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
   const ctrlDelItem = function deleteItemFromDataAndUI(event) { 
     // Get the item, which is parent of the button, rather than the button itself
     const selectorId = event.target.parentNode.parentNode.parentNode.id;  
+    console.log(selectorId); //????
     const itemObject = selectorId.split('-');
     const type = itemObject[0];
     const id = parseInt(itemObject[1]);

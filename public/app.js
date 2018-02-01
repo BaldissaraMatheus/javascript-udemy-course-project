@@ -1,55 +1,72 @@
-const budgetCtrl = (function budgetController() {
+'use strict';
 
-  class Expense {
-    constructor(id, description, value) {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var budgetCtrl = function budgetController() {
+  var Expense = function () {
+    function Expense(id, description, value) {
+      _classCallCheck(this, Expense);
+
       this.id = id;
       this.description = description;
       this.value = value;
       this.percentage = -1;
     }
 
-    getPercent() {
-      return this.percentage;
-    }
-
-    calcPercent(totalInc) {
-      if (totalInc > 0) {
-        this.percentage = Math.round((this.value / totalInc) * 100);
+    _createClass(Expense, [{
+      key: 'getPercent',
+      value: function getPercent() {
+        return this.percentage;
       }
-    }
+    }, {
+      key: 'calcPercent',
+      value: function calcPercent(totalInc) {
+        if (totalInc > 0) {
+          this.percentage = Math.round(this.value / totalInc * 100);
+        }
+      }
+    }]);
+
+    return Expense;
+  }();
+
+  ;
+
+  var Income = function Income(id, description, value) {
+    _classCallCheck(this, Income);
+
+    this.id = id;
+    this.description = description;
+    this.value = value;
   };
 
-  class Income {
-    constructor(id, description, value) {
-      this.id = id;
-      this.description = description;
-      this.value = value;
-    }
-  };
+  ;
 
-  const calcTotal = function calculateTotalIncomesOrExpenses(type) {
-    let sum = 0;
+  var calcTotal = function calculateTotalIncomesOrExpenses(type) {
+    var sum = 0;
 
-    data.items[type].forEach(function(current) {
+    data.items[type].forEach(function (current) {
       sum += current.value;
-    });   
+    });
 
     data.total[type] = sum;
   };
 
-  const calcCurrBudget = function calculateCurrentBudget() {
+  var calcCurrBudget = function calculateCurrentBudget() {
     data.budget = data.total.inc - data.total.exp;
   };
 
-  const calcTotalPercent = function calculatePercentageOfTotalSpent() {
+  var calcTotalPercent = function calculatePercentageOfTotalSpent() {
     if (data.total.inc > 0) {
-      data.percentage = Math.round((data.total.exp / data.total.inc) * 100);
+      data.percentage = Math.round(data.total.exp / data.total.inc * 100);
     } else {
       data.percentage = -1;
-    }    
+    }
   };
 
-  const data = {
+  var data = {
     items: {
       exp: [],
       inc: []
@@ -63,29 +80,29 @@ const budgetCtrl = (function budgetController() {
   };
 
   return {
-    addItem: function(type, desc, val) {
-      let newItem;
-      let id = 0;
-      
-      if (data.items[type].length > 0){
+    addItem: function addItem(type, desc, val) {
+      var newItem = void 0;
+      var id = 0;
+
+      if (data.items[type].length > 0) {
         id = data.items[type][data.items[type].length - 1].id + 1;
-      }    
+      }
 
       if (type === 'exp') {
         newItem = new Expense(id, desc, val);
       } else {
         newItem = new Income(id, desc, val);
-      }    
+      }
       data.items[type].push(newItem);
 
       return newItem;
-    }, 
-    
-    delItem: function(type, id) {
-      let ids;
-      let index;
+    },
 
-      ids = data.items[type].map((current) => {
+    delItem: function delItem(type, id) {
+      var ids = void 0;
+      var index = void 0;
+
+      ids = data.items[type].map(function (current) {
         return current.id;
       });
 
@@ -96,28 +113,27 @@ const budgetCtrl = (function budgetController() {
       }
     },
 
-    getPercentages: function() {
-      const allPercents = data.items.exp.map((current) => {
+    getPercentages: function getPercentages() {
+      var allPercents = data.items.exp.map(function (current) {
         return current.getPercent();
       });
       return allPercents;
     },
 
-    calculatePercentages: function() {
-      data.items.exp.forEach((current) => {
+    calculatePercentages: function calculatePercentages() {
+      data.items.exp.forEach(function (current) {
         current.calcPercent(data.total.inc);
       });
     },
 
-    calcBudget: function() {
+    calcBudget: function calcBudget() {
       calcTotal('inc');
       calcTotal('exp');
       calcCurrBudget();
       calcTotalPercent();
     },
 
-    
-    getBudget: function() {
+    getBudget: function getBudget() {
       return {
         budget: data.budget,
         totalInc: data.total.inc,
@@ -125,16 +141,16 @@ const budgetCtrl = (function budgetController() {
         percentage: data.percentage
       };
     },
-    
-    testing: function(){
+
+    testing: function testing() {
       console.log(data);
     }
   };
-}());
+}();
 
-const UICtrl = (function UIController() {
+var UICtrl = function UIController() {
 
-  const DOMstrings = {
+  var DOMstrings = {
     inputType: '.js-add__type',
     inputDescription: '.js-add__description',
     inputValue: '.js-add__value',
@@ -150,12 +166,12 @@ const UICtrl = (function UIController() {
     dateLabel: '.js-month'
   };
 
-  formatNum =  function formatNumber(numIn, type){
-    let num;
-    let numSplit;
-    let int;
-    let dec;
-    let sign;
+  var formatNum = function formatNumber(numIn, type) {
+    var num = void 0;
+    var numSplit = void 0;
+    var int = void 0;
+    var dec = void 0;
+    var sign = void 0;
 
     num = Math.abs(numIn);
     num = num.toFixed(2);
@@ -164,7 +180,7 @@ const UICtrl = (function UIController() {
     dec = numSplit[1];
 
     if (int.lenght > 3) {
-      int = `${int.substr(0, int.lenght - 3)}.${int.substr(int.lenght - 3, 3)}`;
+      int = int.substr(0, int.lenght - 3) + '.' + int.substr(int.lenght - 3, 3);
     }
 
     if (type === 'exp') {
@@ -173,21 +189,21 @@ const UICtrl = (function UIController() {
       sign = '+';
     }
 
-    return `${sign} R$ ${int},${dec}`;  
+    return sign + ' R$ ' + int + ',' + dec;
   };
 
-  const nodeListForEach = function(list, callback) {
-    for (let i = 0; i < list.length; i++) {
+  var nodeListForEach = function nodeListForEach(list, callback) {
+    for (var i = 0; i < list.length; i++) {
       callback(list[i], i);
     }
   };
 
   return {
-    getDOMstrings: function() {
+    getDOMstrings: function getDOMstrings() {
       return DOMstrings;
     },
 
-    getInput: function() {
+    getInput: function getInput() {
       return {
         type: document.querySelector(DOMstrings.inputType).value,
         description: document.querySelector(DOMstrings.inputDescription).value,
@@ -195,22 +211,24 @@ const UICtrl = (function UIController() {
       };
     },
 
-    clearFields: function() {
-      const fields = document.querySelectorAll(`${DOMstrings.inputDescription}, ${DOMstrings.inputValue}`);
-      const fieldsArray = Array.prototype.slice.call(fields);
-      fieldsArray.forEach(function(current) { current.value = ''; });
-      fieldsArray[0].focus(); 
+    clearFields: function clearFields() {
+      var fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+      var fieldsArray = Array.prototype.slice.call(fields);
+      fieldsArray.forEach(function (current) {
+        current.value = '';
+      });
+      fieldsArray[0].focus();
     },
 
-    addListItem: function(item, type) {
-      let html;
-      let newHtml;
-      let element;
+    addListItem: function addListItem(item, type) {
+      var html = void 0;
+      var newHtml = void 0;
+      var DOMelement = void 0;
 
-      if (type === 'inc') {       
+      if (type === 'inc') {
         DOMelement = DOMstrings.incomesContainer;
         html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
-      } else {  
+      } else {
         DOMelement = DOMstrings.expensesContainer;
         html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage js-item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       }
@@ -218,90 +236,84 @@ const UICtrl = (function UIController() {
       newHtml = html.replace('%id%', item.id);
       newHtml = newHtml.replace('%description%', item.description);
       newHtml = newHtml.replace('%value%', formatNum(item.value, type));
-      
+
       document.querySelector(DOMelement).insertAdjacentHTML('beforeend', newHtml);
     },
 
-    delListItem: function(selectorId) {
-      const element = document.getElementById(selectorId);
+    delListItem: function delListItem(selectorId) {
+      var element = document.getElementById(selectorId);
       element.parentNode.removeChild(element);
     },
 
-    displayBudget: function(DOMobj) {
-      let type;
-      
+    displayBudget: function displayBudget(DOMobj) {
+      var type = void 0;
+
       if (DOMobj.budget > 0) {
         type = 'inc';
       } else {
         type = 'exp';
-      }       
+      }
 
       document.querySelector(DOMstrings.budgetLabel).textContent = formatNum(DOMobj.budget, type);
       document.querySelector(DOMstrings.incomesLabel).textContent = formatNum(DOMobj.totalInc, 'inc');
       document.querySelector(DOMstrings.expensesLabel).textContent = formatNum(DOMobj.totalExp, 'exp');
-      if(DOMobj.percentage > 0) {
+      if (DOMobj.percentage > 0) {
         document.querySelector(DOMstrings.percentageLabel).textContent = DOMobj.percentage + '%';
       } else {
         document.querySelector(DOMstrings.percentageLabel).textContent = '---';
       }
-      
     },
 
-    displayPercentages: function(percentages) {
-      const fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+    displayPercentages: function displayPercentages(percentages) {
+      var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
-      nodeListForEach(fields, (current, index) => {
+      nodeListForEach(fields, function (current, index) {
         if (percentages[index] > 0) {
-          current.textContent = `${percentages[index]} %`;
+          current.textContent = percentages[index] + ' %';
         } else {
           current.textContent = '---';
-        }              
+        }
       });
     },
 
-    changeType: function() {
-      const fields = document.querySelectorAll(
-        `${DOMstrings.inputType},
-        ${DOMstrings.inputDescription},
-        ${DOMstrings.inputValue}`
-      );
+    changeType: function changeType() {
+      var fields = document.querySelectorAll(DOMstrings.inputType + ',\n        ' + DOMstrings.inputDescription + ',\n        ' + DOMstrings.inputValue);
 
-      nodeListForEach(fields, (cur) => {
+      nodeListForEach(fields, function (cur) {
         cur.classList.toggle('red-focus');
         document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
       });
     },
 
-    displayMonth: function() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth();
-      const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      document.querySelector(DOMstrings.dateLabel).textContent = `${months[month]} de ${year}`;
-
+    displayMonth: function displayMonth() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth();
+      var months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' de ' + year;
     }
   };
-}());
+}();
 
-const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
+var mainCtrl = function generalController(budgetCtrl, UICtrl) {
 
-  const setEvtLst = function setupEventListeners() {
-    const DOMobj = UICtrl.getDOMstrings();
+  var setEvtLst = function setupEventListeners() {
+    var DOMobj = UICtrl.getDOMstrings();
     document.querySelector(DOMobj.inputBtn).addEventListener('click', ctrlAddItem);
-    document.addEventListener('keypress', (event) => {
-      if (event.keycode === 13 || event.which === 13) ctrlAddItem();                   
+    document.addEventListener('keypress', function (event) {
+      if (event.keycode === 13 || event.which === 13) ctrlAddItem();
     });
 
     document.querySelector(DOMobj.container).addEventListener('click', ctrlDelItem);
     document.querySelector(DOMobj.inputType).addEventListener('change', UICtrl.changeType);
   };
-  
-  const ctrlAddItem = function addItemToDataAndUI() {    
-    const input = UICtrl.getInput();
-    let newItem;
+
+  var ctrlAddItem = function addItemToDataAndUI() {
+    var input = UICtrl.getInput();
+    var newItem = void 0;
 
     if (!isNaN(input.value)) {
-      if (input.description === '') input.description = 'No description';        
+      if (input.description === '') input.description = 'No description';
       newItem = budgetCtrl.addItem(input.type, input.description, input.value);
       UICtrl.addListItem(newItem, input.type);
       UICtrl.clearFields();
@@ -312,33 +324,34 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
     }
   };
 
-  const ctrlDelItem = function deleteItemFromDataAndUI(event) { 
+  var ctrlDelItem = function deleteItemFromDataAndUI(event) {
     // Get the item, which is parent of the button, rather than the button itself
-    const selectorId = event.target.parentNode.parentNode.parentNode.id;  
-    const itemObject = selectorId.split('-');
-    const type = itemObject[0];
-    const id = parseInt(itemObject[1]);
+    var selectorId = event.target.parentNode.parentNode.parentNode.id;
+    console.log(selectorId); //????
+    var itemObject = selectorId.split('-');
+    var type = itemObject[0];
+    var id = parseInt(itemObject[1]);
     budgetCtrl.delItem(type, id);
     UICtrl.delListItem(selectorId);
     updateBudget();
-    updatePercentages();   
+    updatePercentages();
   };
 
-  const updateBudget = function updateTheGlobalBudgetValue() {
+  var updateBudget = function updateTheGlobalBudgetValue() {
     budgetCtrl.calcBudget();
 
-    const budget = budgetCtrl.getBudget();
+    var budget = budgetCtrl.getBudget();
     UICtrl.displayBudget(budget);
-  };  
+  };
 
-  const updatePercentages = function() {
+  var updatePercentages = function updatePercentages() {
     budgetCtrl.calculatePercentages();
-    const percentages = budgetCtrl.getPercentages();
+    var percentages = budgetCtrl.getPercentages();
     UICtrl.displayPercentages(percentages);
   };
 
   return {
-    init: function(){
+    init: function init() {
       console.log('Application has started');
       UICtrl.displayBudget({
         budget: 0,
@@ -348,8 +361,8 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
       });
       setEvtLst();
       UICtrl.displayMonth();
-    }    
-  };  
-}(budgetCtrl, UICtrl));
+    }
+  };
+}(budgetCtrl, UICtrl);
 
 mainCtrl.init();
