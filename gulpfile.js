@@ -19,7 +19,6 @@ gulp.task('css', function(done){
 
 gulp.task('js', function(done){
   gulp.src('src/*.js')
-    .pipe(concat('app.js'))
     .pipe(babel({
       presets: ['env', 'stage-2']
     }))
@@ -42,4 +41,4 @@ gulp.task('watch', function(){
   gulp.watch('src/*.js', gulp.series('js'));
 });
 
-gulp.task('default', gulp.parallel('html', 'css', 'js', 'img', 'watch'));
+gulp.task('default', gulp.series(gulp.parallel('html', 'css', 'js', 'img'), 'watch'));

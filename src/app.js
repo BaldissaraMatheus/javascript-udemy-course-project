@@ -17,7 +17,7 @@ const budgetCtrl = (function budgetController() {
         this.percentage = Math.round((this.value / totalInc) * 100);
       }
     }
-  };
+  }
 
   class Income {
     constructor(id, description, value) {
@@ -25,7 +25,7 @@ const budgetCtrl = (function budgetController() {
       this.description = description;
       this.value = value;
     }
-  };
+  }
 
   const calcTotal = function calculateTotalIncomesOrExpenses(type) {
     let sum = 0;
@@ -86,6 +86,7 @@ const budgetCtrl = (function budgetController() {
       let index;
 
       ids = data.items[type].map((current) => {
+        console.log(current.id)
         return current.id;
       });
 
@@ -313,9 +314,12 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
   };
 
   const ctrlDelItem = function deleteItemFromDataAndUI(event) { 
-    // Get the item, which is parent of the button, rather than the button itself
-    const selectorId = event.target.parentNode.parentNode.parentNode.id;  
-    console.log(selectorId); //????
+    let selectorId = event.target.parentNode.parentNode.parentNode;
+    if (selectorId.id) {
+      selectorId = selectorId.id;
+    } else {
+      selectorId = selectorId.parentNode.id;
+    }
     const itemObject = selectorId.split('-');
     const type = itemObject[0];
     const id = parseInt(itemObject[1]);

@@ -32,8 +32,6 @@ var budgetCtrl = function budgetController() {
     return Expense;
   }();
 
-  ;
-
   var Income = function Income(id, description, value) {
     _classCallCheck(this, Income);
 
@@ -41,8 +39,6 @@ var budgetCtrl = function budgetController() {
     this.description = description;
     this.value = value;
   };
-
-  ;
 
   var calcTotal = function calculateTotalIncomesOrExpenses(type) {
     var sum = 0;
@@ -103,6 +99,7 @@ var budgetCtrl = function budgetController() {
       var index = void 0;
 
       ids = data.items[type].map(function (current) {
+        console.log(current.id);
         return current.id;
       });
 
@@ -325,9 +322,12 @@ var mainCtrl = function generalController(budgetCtrl, UICtrl) {
   };
 
   var ctrlDelItem = function deleteItemFromDataAndUI(event) {
-    // Get the item, which is parent of the button, rather than the button itself
-    var selectorId = event.target.parentNode.parentNode.parentNode.id;
-    console.log(selectorId); //????
+    var selectorId = event.target.parentNode.parentNode.parentNode;
+    if (selectorId.id) {
+      selectorId = selectorId.id;
+    } else {
+      selectorId = selectorId.parentNode.id;
+    }
     var itemObject = selectorId.split('-');
     var type = itemObject[0];
     var id = parseInt(itemObject[1]);
