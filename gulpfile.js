@@ -1,7 +1,8 @@
 const gulp = require('gulp');
 const livereload = require('gulp-livereload');
-const imagemin = require('gulp-imagemin');
+const minify = require('gulp-image');
 const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
 
 gulp.task('html', function(done){
   gulp.src('src/*.html')
@@ -22,6 +23,7 @@ gulp.task('js', function(done){
     .pipe(babel({
       presets: ['env', 'stage-2']
     }))
+    .pipe(uglify())
     .pipe(gulp.dest('public'))
     .pipe(livereload());
     done();
@@ -29,6 +31,7 @@ gulp.task('js', function(done){
 
 gulp.task('img', function(done){
   gulp.src('src/*.png', 'src/*.jpg')
+    .pipe(minify())  
     .pipe(gulp.dest('public'))
     .pipe(livereload());
     done();

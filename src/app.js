@@ -315,11 +315,14 @@ const mainCtrl = (function generalController(budgetCtrl, UICtrl) {
 
   const ctrlDelItem = function deleteItemFromDataAndUI(event) { 
     let selectorId = event.target.parentNode.parentNode.parentNode;
+
+    // Verification for browser compatibility
     if (selectorId.id) {
       selectorId = selectorId.id;
     } else {
       selectorId = selectorId.parentNode.id;
     }
+
     const itemObject = selectorId.split('-');
     const type = itemObject[0];
     const id = parseInt(itemObject[1]);
